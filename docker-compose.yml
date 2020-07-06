@@ -1,0 +1,40 @@
+version: '3.7'
+
+volumes:
+    logs:
+        driver: local
+
+services:
+    slim:
+        image: php:7-alpine
+        env_file:
+            - ./.env
+        working_dir: /var/www
+        command: >
+            sh -c "docker-php-ext-install mysqli pdo pdo_mysql \
+                && apk add git curl \
+                && curl -sS https://getcomposer.org/installer | php \
+                && mv composer.phar /usr/local/bin/ \
+                && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
+                && composer install --prefer-source --no-interaction \
+                && php -S 0.0.0.0:8080 -t public"
+        depends_on:
+            - db
+        environment:
+            docker: "true"
+        ports:
+            - 8080:8080
+        links:
+            - db
+        volumes:
+            - .:/var/www
+            - logs:/var/www/logs
+    db:
+        image: mariadb:10.2
+        env_file:
+            - ./.env
+        ports:
+            - 3306:3306
+        volumes:
+            - ./docker/db:/var/lib/mysql
+            - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
