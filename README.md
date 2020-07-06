@@ -21,4 +21,51 @@ Run this command in the application directory to run the test suite, make sure A
 > make test
 ```
 
+## API
+
+### Projects
+Get all projects
+```bash
+> http http://localhost:8080/projects
+```
+
+Create a project
+```bash
+> http -f POST http://localhost:8080/projects name=test
+```
+
+Edit the project
+```bash
+> http -f PUT http://localhost:8080/projects/1 name=test1
+```
+
+Remove the project
+```bash
+> http DELETE http://localhost:8080/projects/1
+```
+
+### Tasks
+Get all tasks
+```bash
+> http http://localhost:8080/tasks
+```
+
+Create a task
+```bash
+> http -f POST http://localhost:8080/tasks name=test description=test-task project=1 'tag[]'=tag1 'tag[]'=tag2
+```
+
+Edit the task
+```bash
+> http -f PUT http://localhost:8080/tasks/1 name=test1
+```
+
+Remove the task
+```bash
+> http DELETE http://localhost:8080/tasks/1
+```
+
+
+> The **[http](https://httpie.org/)** tool
+
 That's it!
