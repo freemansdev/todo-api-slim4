@@ -23,6 +23,8 @@ Run this command in the application directory to run the test suite, make sure A
 
 ## API
 
+> Please see the Application routes app/routes.php
+
 ### Projects
 Get all projects
 ```bash
